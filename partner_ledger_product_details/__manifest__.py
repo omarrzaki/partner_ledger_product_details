@@ -18,7 +18,7 @@
         - Custom JavaScript component for web view
         - Custom PDF template for printing
     """,
-    'author': "Omar Zaki / Softprimes",
+    'author': "Omar Zaki",
     'website': "http://www.softprimes.com",
     'license': 'LGPL-3',
     'depends': ['account_reports'],
@@ -35,4 +35,5 @@
     'installable': True,
     'application': False,
     'auto_install': False,
+    'images': ['static/description/banner.png'],
 }
