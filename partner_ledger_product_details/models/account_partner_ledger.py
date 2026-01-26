@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 # Copyright (C) 2026 Omar Zaki
-# License LGPL-2.1
+# License OPL-1
 
 
 from odoo import api, models, _

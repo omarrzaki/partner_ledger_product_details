@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2026 Omar Zaki
-# License LGPL-2.1
+# License OPL-1
 {
     'name': 'Partner Ledger Product Details',
     'version': '18.0.1.0.0',
@@ -20,7 +20,7 @@
     """,
     'author': "Omar Zaki",
     'website': "http://www.softprimes.com",
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
     'depends': ['account_reports'],
     'data': [
         'data/pdf_export_templates.xml',
