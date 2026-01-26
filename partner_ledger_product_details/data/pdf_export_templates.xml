@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend PDF export to show product details table -->
+    <template id="pdf_export_main_table_body" inherit_id="account_reports.pdf_export_main_table_body">
+        <xpath expr="//tr[@name='pdf_export_main_table_body_lines_tr']" position="after">
+            <!-- Product Details Table for lines with product_data -->
+            <t t-if="line.get('product_data')">
+                <tr class="o_product_details_pdf_row" style="background-color: #f8f9fa;">
+                    <td t-att-colspan="len(options['columns']) + 1" style="padding: 5px 0 5px 30px;">
+                        <table style="width: 100%; border: 1px solid #dee2e6; margin: 5px 0; font-size: 10px; border-collapse: collapse;">
+                            <thead style="background: #667eea; color: white;">
+                                <tr>
+                                    <th style="padding: 6px 10px; text-align: left; border: 1px solid #dee2e6;">المنتج</th>
+                                    <th style="padding: 6px 10px; text-align: center; width: 80px; border: 1px solid #dee2e6;">الكمية</th>
+                                    <th style="padding: 6px 10px; text-align: center; width: 100px; border: 1px solid #dee2e6;">سعر الوحدة</th>
+                                    <th style="padding: 6px 10px; text-align: center; width: 100px; border: 1px solid #dee2e6;">الإجمالي</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="line.get('product_data', [])" t-as="product">
+                                    <tr style="border-bottom: 1px solid #e9ecef;">
+                                        <td style="padding: 4px 10px; border: 1px solid #e9ecef;">
+                                            <t t-out="product.get('name', '')"/>
+                                        </td>
+                                        <td style="padding: 4px 10px; text-align: center; border: 1px solid #e9ecef;">
+                                            <t t-out="product.get('quantity', '')"/>
+                                            <t t-if="product.get('uom')"> <t t-out="product.get('uom')"/></t>
+                                        </td>
+                                        <td style="padding: 4px 10px; text-align: center; border: 1px solid #e9ecef;">
+                                            <t t-out="'{:,.2f}'.format(product.get('price_unit', 0))"/>
+                                        </td>
+                                        <td style="padding: 4px 10px; text-align: center; font-weight: 500; border: 1px solid #e9ecef;">
+                                            <t t-out="'{:,.2f}'.format(product.get('subtotal', 0))"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot style="background: #e9ecef; font-weight: bold;">
+                                <tr>
+                                    <td colspan="3" style="padding: 6px 10px; border: 1px solid #dee2e6;">المجموع</td>
+                                    <td style="padding: 6px 10px; text-align: center; border: 1px solid #dee2e6;">
+                                        <t t-out="'{:,.2f}'.format(sum(p.get('subtotal', 0) for p in line.get('product_data', [])))"/>
+                                        <t t-if="line.get('currency_symbol')"> <t t-out="line.get('currency_symbol')"/></t>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+    </template>
+</odoo>

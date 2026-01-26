@@ -1,0 +1,80 @@
+/* Partner Ledger Product Details Styles */
+
+.o_product_details_row {
+    background-color: #b9a7cb !important;
+}
+
+.o_product_details_row > td {
+    text-align: left !important;
+}
+
+.o_product_details_wrapper {
+    padding: 12px 20px;
+    margin: 0;
+    margin-left: 10px;
+    margin-right: auto;
+    text-align: left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.o_product_table {
+    background: white;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0 !important;
+    margin-right: auto;
+    margin-left: 0;
+    font-size: 12px;
+    width: auto;
+    min-width: 500px;
+}
+
+.o_product_table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.o_product_table thead th {
+    padding: 10px 12px;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+}
+
+.o_product_table thead th:first-child {
+    text-align: left;
+}
+
+.o_product_table tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.o_product_table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+.o_product_table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.o_product_table tfoot {
+    background: #e9ecef;
+}
+
+.o_product_table tfoot td {
+    padding: 10px 12px;
+    border-top: 2px solid #dee2e6;
+    font-size: 13px;
+}
+
+/* RTL support for Arabic */
+.o_product_table th:first-child,
+.o_product_table td:first-child {
+    text-align: right;
+    padding-right: 16px;
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <!-- Custom line template that shows product details table -->
+    <t t-name="partner_ledger_product_details.ProductDetailsLine" t-inherit="account_reports.AccountReportLineCustomizable" t-inherit-mode="primary">
+        
+        <!-- Override the entire row when we have product data -->
+        <xpath expr="//tr[@data-id='line']" position="replace">
+            <t t-if="hasProductData">
+                <!-- Product Details Table Row -->
+                <tr data-id="line" t-att-class="lineClasses" class="o_product_details_row">
+                    <td t-att-colspan="props.line.columns.length + 1" class="p-0" style="text-align: left !important;">
+                        <div class="o_product_details_wrapper">
+                            <table class="table table-sm table-bordered o_product_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-start">Product</th>
+                                        <th class="text-center" style="width: 100px;">Quantity</th>
+                                        <th class="text-center" style="width: 120px;">Unit Price</th>
+                                        <th class="text-center" style="width: 120px;">Amount Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="productData" t-as="product" t-key="product.id">
+                                        <tr>
+                                            <td class="text-start">
+                                                <t t-out="product.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-out="product.quantity"/>
+                                                <t t-if="product.uom"> <t t-out="product.uom"/></t>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-out="formatNumber(product.price_unit)"/>
+                                            </td>
+                                            <td class="text-center fw-medium">
+                                                <t t-out="formatNumber(product.subtotal)"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="fw-bold">
+                                        <td colspan="3" class="text-start">Total</td>
+                                        <td class="text-center">
+                                            <t t-out="formatNumber(totalAmount)"/>
+                                            <t t-if="currencySymbol"> <t t-out="currencySymbol"/></t>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </t>
+            <t t-else="">
+                <!-- Standard row for lines without product data -->
+                <tr
+                    data-id="line"
+                    t-att-class="lineClasses"
+                >
+                    <!-- Name column -->
+                    <t t-component="env.component('AccountReportLineName')" t-props="{ lineIndex: props.lineIndex, line: props.line }"/>
+
+                    <!-- Value columns -->
+                    <t t-foreach="props.line.columns" t-as="cell" t-key="cell_index">
+                        <t t-if="cell.column_group_key?.includes('compute_budget')">
+                            <AccountReportLineCellEditable t-props="{ line: props.line, cell: cell }"/>
+                        </t>
+                        <t t-else="">
+                            <t t-component="env.component('AccountReportLineCell')" t-props="{ line: props.line, cell: cell }"/>
+                        </t>
+                    </t>
+
+                    <!-- Growth comparison column -->
+                    <t t-if="controller.needsColumnPercentComparison">
+                        <t t-if="controller.lineHasGrowthComparisonData(props.lineIndex)">
+                            <td t-att-class="growthComparisonClasses">
+                                <t t-out="props.line.column_percent_comparison_data.name"/>
+                            </td>
+                        </t>
+                        <t t-else="">
+                            <td/>
+                        </t>
+                    </t>
+
+                    <!-- Debug column -->
+                    <t t-if="controller.hasDebugColumn">
+                        <td class="text-center">
+                            <t t-if="props.line.code">
+                                <t t-out="props.line.code"/>
+                            </t>
+
+                            <t t-if="controller.lineHasDebugData(props.lineIndex)">
+                                <button class="btn btn_debug" t-on-click="(ev) => this.showDebugPopover(ev)">
+                                    <i class="fa fa-info-circle"/>
+                                </button>
+                            </t>
+                        </td>
+                    </t>
+
+                    <t t-if="controller.options.show_horizontal_group_total">
+                        <td t-att-class="HorizontalGroupTotalClasses">
+                            <t t-out="props.line.horizontal_group_total_data?.name"/>
+                        </td>
+                    </t>
+                </tr>
+            </t>
+        </xpath>
+    </t>
+</templates>
